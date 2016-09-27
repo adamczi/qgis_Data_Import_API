@@ -1,7 +1,9 @@
 import os
 keySecret = os.urandom(24)
 
-user = 'user'
-password = 'password'
-host = 'host'
-port = 5432
+user = ''
+password = ''
+host = ''
+port = 0
+pword = ''
+db_name = ''

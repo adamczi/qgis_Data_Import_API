@@ -5,6 +5,7 @@ from db import *
 from models import *
 # from peewee import fn
 import subprocess
+import os
 
 #app start
 app = Flask(__name__)
@@ -34,13 +35,18 @@ def temp(api, path, region):
     api_key = api
     
     ## Strip the 'path' word
-    path = path[4:]
+    path = path[4:]   
+    path = os.path.normpath(path)
+
     
-    command = ["pgsql2shp -f %s -h %s -u %s -P %s db_name %s" % (path, host, user, password, region)] 
+    command = ["pgsql2shp -f %s -h %s -u %s -P %s %s main.%s" % (path, host, user, pword, db_name, region)] 
 
     try:
         ## Run pgsql2shp subprocess 
-        work = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if os.name == 'posix':
+            work = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        else:
+            work = subprocess.Popen([command], shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
         stdout, stderr = work.communicate()
 

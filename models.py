@@ -1,5 +1,8 @@
 # coding: utf-8
 from peewee import *
-from config import user, password, host, port, db_name
+from config import db_name, user, pword, host
 
-db = PostgresqlDatabase(db_name , user=user, password=password, host=host)
+db = PostgresqlDatabase(db_name,
+                        user=user,
+                        password=pword,
+                        host=host)
